@@ -1,13 +1,16 @@
 name: Deploy weather app
 
+
 on:
   push:
     branches: [main]
+
 
 permissions:
   contents: read
   pages: write
   id-token: write
+
 
 jobs:
   build:
@@ -19,9 +22,12 @@ jobs:
           node-version: 20
       - run: npm install
       - run: npm run build
+        env:
+          VITE_OPENWEATHER_API_KEY: ${{ secrets.VITE_OPENWEATHER_API_KEY }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
       - id: deployment
         uses: actions/deploy-pages@v4
+
